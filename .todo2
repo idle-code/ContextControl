@@ -28,6 +28,27 @@
       "creation": 1412434908,
       "completion": 0,
       "tasks": []
+    },
+    {
+      "text": "Create test, build and clean scripts",
+      "priority": "medium",
+      "creation": 1412435643,
+      "completion": 0,
+      "tasks": []
+    },
+    {
+      "text": "Personalize code snippets",
+      "priority": "medium",
+      "creation": 1412435883,
+      "completion": 1412621952,
+      "tasks": []
+    },
+    {
+      "text": "Create variant type used as leaf data storage",
+      "priority": "medium",
+      "creation": 1413404045,
+      "completion": 0,
+      "tasks": []
     }
   ]
 }

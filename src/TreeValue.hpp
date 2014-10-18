@@ -8,11 +8,10 @@ namespace ContextControl {
 class TreeValue {
 public:
   class UnknownCastException : std::exception {
-
+  public: const char* what(void) const throw() override { return "Unknown exception"; }
   };
 
   class InvalidCastException : std::exception {
-
   };
 
 public:

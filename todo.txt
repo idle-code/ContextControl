@@ -1,3 +1,0 @@
-- make GTest work
-- write 3 test functions for TreeNode
-
