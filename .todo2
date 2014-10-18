@@ -1,0 +1,33 @@
+{
+  "title": "Context Control",
+  "tasks": [
+    {
+      "text": "Make GTest work",
+      "priority": "medium",
+      "creation": 1412434857,
+      "completion": 1412434913,
+      "tasks": []
+    },
+    {
+      "text": "Write at least 3 tests for TreeNode class",
+      "priority": "medium",
+      "creation": 1412434876,
+      "completion": 0,
+      "tasks": []
+    },
+    {
+      "text": "Register repository on github",
+      "priority": "medium",
+      "creation": 1412434888,
+      "completion": 0,
+      "tasks": []
+    },
+    {
+      "text": "Create unicode String class (along with unicode Char type)",
+      "priority": "medium",
+      "creation": 1412434908,
+      "completion": 0,
+      "tasks": []
+    }
+  ]
+}

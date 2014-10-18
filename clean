@@ -1,0 +1,9 @@
+#!/usr/bin/zsh
+
+find ./ -name "CMakeFiles" -type d -exec rm -r {} +
+find ./ -name "CMakeCache.txt" -delete
+find ./ -name "Makefile" -delete
+find ./ -name "cmake_install.cmake" -delete
+find ./ -name "*~" -delete
+
+
