@@ -9,17 +9,10 @@
       "tasks": []
     },
     {
-      "text": "Write at least 3 tests for TreeNode class",
-      "priority": "medium",
-      "creation": 1412434876,
-      "completion": 0,
-      "tasks": []
-    },
-    {
       "text": "Register repository on github",
       "priority": "medium",
       "creation": 1412434888,
-      "completion": 0,
+      "completion": 1413736937,
       "tasks": []
     },
     {
@@ -33,7 +26,7 @@
       "text": "Create test, build and clean scripts",
       "priority": "medium",
       "creation": 1412435643,
-      "completion": 0,
+      "completion": 1413736911,
       "tasks": []
     },
     {
@@ -47,6 +40,21 @@
       "text": "Create variant type used as leaf data storage",
       "priority": "medium",
       "creation": 1413404045,
+      "completion": 0,
+      "tasks": [
+        {
+          "text": "Create (lexical) conversion routines",
+          "priority": "medium",
+          "creation": 1413737017,
+          "completion": 0,
+          "tasks": []
+        }
+      ]
+    },
+    {
+      "text": "Create simple REPL-based console",
+      "priority": "medium",
+      "creation": 1413737061,
       "completion": 0,
       "tasks": []
     }
