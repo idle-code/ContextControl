@@ -18,7 +18,13 @@ public:
   template<typename TargetType>
   TargetType ValueAs(void)
   {
-    return TargetType();
+    return _Value.ValueAs<TargetType>();
+  }
+
+  template<typename SourceType>
+  void SetValueTo(SourceType value)
+  {
+    _Value.SetValueTo(value);
   }
 
 private:

@@ -11,7 +11,6 @@ enum struct NodeKind {
   String,
   Integer,
   Fractional,
-  Link,
 };
 
 class TreeValue {
@@ -36,7 +35,6 @@ public:
   typedef std::string StringValueType;
   typedef int IntegerValueType;
   typedef float FractionalValueType;
-  typedef TreeValue* LinkValueType;
 
 public:
   TreeValue(NodeKind value_type)
@@ -53,9 +51,6 @@ public:
         break;
       case NodeKind::Fractional:
         _Data.FractionalValue = 0.0f;
-        break;
-      case NodeKind::Link:
-        throw InvalidTypeException();
         break;
       default:
         throw InvalidTypeException();
@@ -74,6 +69,42 @@ public:
     throw UnknownCastException();
   }
 
+  void SetValueTo(IntegerValueType value)
+  {
+    switch (_Type) {
+      case NodeKind::Integer:
+        _Data.IntegerValue = value;
+        break;
+
+      default:
+        throw InvalidCastException();
+    }
+  }
+
+  void SetValueTo(FractionalValueType value)
+  {
+    switch (_Type) {
+      case NodeKind::Fractional:
+        _Data.FractionalValue = value;
+        break;
+
+      default:
+        throw InvalidCastException();
+    }
+  }
+
+  void SetValueTo(StringValueType value)
+  {
+    switch (_Type) {
+      case NodeKind::String:
+        _Data.StringValue = value;
+        break;
+
+      default:
+        throw InvalidCastException();
+    }
+  }
+
   NodeKind Type(void) const
   {
     return _Type;
@@ -85,14 +116,14 @@ private:
     StringValueType StringValue;
     IntegerValueType IntegerValue;
     FractionalValueType FractionalValue;
-    LinkValueType LinkValue;
   } _Data;
 
   NodeKind _Type;
 };
 
-template<>
-inline
+/** ----------------------------------------------------------------------- **/
+
+template<> inline
 TreeValue::IntegerValueType
 TreeValue::ValueAs<TreeValue::IntegerValueType>(void)
 {
@@ -117,8 +148,7 @@ TreeValue::ValueAs<TreeValue::IntegerValueType>(void)
   }
 }
 
-template<>
-inline
+template<> inline
 TreeValue::FractionalValueType
 TreeValue::ValueAs<TreeValue::FractionalValueType>(void)
 {
@@ -144,8 +174,7 @@ TreeValue::ValueAs<TreeValue::FractionalValueType>(void)
   }
 }
 
-template<>
-inline
+template<> inline
 TreeValue::StringValueType
 TreeValue::ValueAs<TreeValue::StringValueType>(void)
 {
@@ -164,20 +193,6 @@ TreeValue::ValueAs<TreeValue::StringValueType>(void)
 
     case NodeKind::String:
       return _Data.StringValue;
-
-    default:
-      throw InvalidCastException();
-  }
-}
-
-template<>
-inline
-TreeValue::LinkValueType
-TreeValue::ValueAs<TreeValue::LinkValueType>(void)
-{
-  switch (_Type) {
-    case NodeKind::Link:
-      return _Data.LinkValue;
 
     default:
       throw InvalidCastException();

@@ -56,6 +56,35 @@
       "priority": "medium",
       "creation": 1413737061,
       "completion": 0,
+      "tasks": [
+        {
+          "text": "Allow console to accept scripts (stdin?) to allow testing",
+          "priority": "medium",
+          "creation": 1413999354,
+          "completion": 0,
+          "tasks": []
+        }
+      ]
+    },
+    {
+      "text": "Distinguish between InvalidCastException and InvalidTypeException in TreeValue class (refine which is used when)",
+      "priority": "medium",
+      "creation": 1413997009,
+      "completion": 0,
+      "tasks": []
+    },
+    {
+      "text": "Remove Link type variant from TreeValue - Links should be tree path based and as such should be placed on higher abstraction level",
+      "priority": "medium",
+      "creation": 1413999283,
+      "completion": 0,
+      "tasks": []
+    },
+    {
+      "text": "Add tests for lexical casts between variant values of TreeValue",
+      "priority": "medium",
+      "creation": 1414000581,
+      "completion": 0,
       "tasks": []
     }
   ]

@@ -4,21 +4,33 @@
 
 namespace cc = ContextControl;
 
-TEST(TreeNodeTest, EmptyNode)
+TEST(TreeNodeTest, VoidNode)
 {
   cc::TreeNode tree_node;
 
-  //ASSERT_EQ(cc::TreeValue::VoidType, tree_node.Type());
-  //ASSERT_EQ(0, tree_node.Size());
+  ASSERT_EQ(cc::NodeKind::Void, tree_node.Type());
+  ASSERT_EQ(0, tree_node.Size());
+}
+
+TEST(TreeNodeTest, DefaultIntegerNode)
+{
+  cc::TreeNode tree_node{cc::NodeKind::Integer};
+
+  ASSERT_EQ(cc::NodeKind::Integer, tree_node.Type());
+  ASSERT_EQ(0, tree_node.ValueAs<int>());
+  ASSERT_EQ(0, tree_node.Size());
 }
 
 TEST(TreeNodeTest, IntegerNode)
 {
-  //cc::TreeNode tree_node{cc::TreeValue::IntegerType};
+  cc::TreeNode tree_node{cc::NodeKind::Integer};
 
-  //ASSERT_EQ(cc::TreeValue::IntegerType, tree_node.Type());
-  //ASSERT_EQ(0, tree_node.ValueAs<int>());
-  //ASSERT_EQ(0, tree_node.Size());
+  tree_node.SetValueTo(1337);
+  //tree_node = 1337;
+
+  ASSERT_EQ(cc::NodeKind::Integer, tree_node.Type());
+  ASSERT_EQ(1337, tree_node.ValueAs<int>());
+  ASSERT_EQ(0, tree_node.Size());
 }
 
 //TODO: uncomment when TreeValue will be functional (2014.10.06)
