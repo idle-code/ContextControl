@@ -34,7 +34,7 @@ public:
   typedef void* VoidValueType;
   typedef std::string StringValueType;
   typedef int IntegerValueType;
-  typedef float FractionalValueType;
+  typedef double FractionalValueType;
 
 public:
   TreeValue(NodeKind value_type)
