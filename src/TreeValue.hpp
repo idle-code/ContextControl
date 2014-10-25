@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include "String.hpp"
 #include <stdexcept>
 #include <sstream>
 
@@ -8,8 +8,9 @@ namespace ContextControl {
 
 enum struct NodeKind {
   Void,
-  String,
   Integer,
+  Boolean,
+  String,
   Fractional,
 };
 
@@ -31,9 +32,9 @@ public:
   };
 
 public:
-  typedef void* VoidValueType;
-  typedef std::string StringValueType;
   typedef int IntegerValueType;
+  typedef bool BooleanValueType;
+  typedef String StringValueType;
   typedef double FractionalValueType;
 
 public:
@@ -43,15 +44,19 @@ public:
     switch (value_type) {
       case NodeKind::Void:
         break;
-      case NodeKind::String:
-        _Data.StringValue = "";
-        break;
       case NodeKind::Integer:
         _Data.IntegerValue = 0;
+        break;
+      case NodeKind::Boolean:
+        _Data.BooleanValue = false;
+        break;
+      case NodeKind::String:
+        _Data.StringValue = "";
         break;
       case NodeKind::Fractional:
         _Data.FractionalValue = 0.0f;
         break;
+
       default:
         throw InvalidTypeException();
     }
@@ -81,6 +86,18 @@ public:
     }
   }
 
+  void SetValueTo(BooleanValueType value)
+  {
+    switch (_Type) {
+      case NodeKind::Boolean:
+        _Data.BooleanValue = value;
+        break;
+
+      default:
+        throw InvalidCastException();
+    }
+  }
+
   void SetValueTo(FractionalValueType value)
   {
     switch (_Type) {
@@ -91,6 +108,11 @@ public:
       default:
         throw InvalidCastException();
     }
+  }
+
+  void SetValueTo(const char *value)
+  {
+    SetValueTo(StringValueType(value));
   }
 
   void SetValueTo(StringValueType value)
@@ -112,10 +134,10 @@ public:
 
 private:
   struct Data { //TODO: change this struct to union
-    VoidValueType VoidValue;
-    StringValueType StringValue;
     IntegerValueType IntegerValue;
+    BooleanValueType BooleanValue;
     FractionalValueType FractionalValue;
+    StringValueType StringValue;
   } _Data;
 
   NodeKind _Type;
@@ -130,6 +152,9 @@ TreeValue::ValueAs<TreeValue::IntegerValueType>(void)
   switch (_Type) {
     case NodeKind::Integer:
       return _Data.IntegerValue;
+
+    case NodeKind::Boolean:
+      return _Data.BooleanValue ? 1 : 0;
 
     case NodeKind::Fractional:
       return static_cast<IntegerValueType>(_Data.FractionalValue);
@@ -149,13 +174,42 @@ TreeValue::ValueAs<TreeValue::IntegerValueType>(void)
 }
 
 template<> inline
+TreeValue::BooleanValueType
+TreeValue::ValueAs<TreeValue::BooleanValueType>(void)
+{
+  switch (_Type) {
+    case NodeKind::Integer:
+      return _Data.IntegerValue != 0;
+
+    case NodeKind::Boolean:
+      return _Data.BooleanValue;
+
+    case NodeKind::Fractional:
+      return _Data.FractionalValue != 0.0;
+
+    case NodeKind::String:
+      if (_Data.StringValue == "true")
+        return true;
+      else if (_Data.StringValue == "false")
+        return false;
+      else
+        throw InvalidCastException();
+
+    default:
+      throw InvalidCastException();
+  }
+}
+
+template<> inline
 TreeValue::FractionalValueType
 TreeValue::ValueAs<TreeValue::FractionalValueType>(void)
 {
   switch (_Type) {
     case NodeKind::Integer:
       return static_cast<FractionalValueType>(_Data.IntegerValue);
-      break;
+
+    case NodeKind::Boolean:
+      return _Data.BooleanValue ? 1.0 : 0.0;
 
     case NodeKind::Fractional:
       return _Data.FractionalValue;
@@ -184,6 +238,9 @@ TreeValue::ValueAs<TreeValue::StringValueType>(void)
       ss << _Data.IntegerValue;
       return ss.str();
     }
+
+    case NodeKind::Boolean:
+      return _Data.BooleanValue ? "true" : "false";
 
     case NodeKind::Fractional: {
       std::stringstream ss;

@@ -4,6 +4,8 @@
 
 #include <cstdlib>
 
+typedef std::string String;
+
 namespace ContextControl {
 
 class TreeNode {
@@ -25,6 +27,16 @@ public:
   void SetValueTo(SourceType value)
   {
     _Value.SetValueTo(value);
+  }
+
+  void Create(String new_sub_name, NodeKind new_sub_type)
+  {
+
+  }
+
+  bool Exists(String sub_name)
+  {
+    return false;
   }
 
 private:
