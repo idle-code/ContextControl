@@ -166,4 +166,76 @@ TEST(TreeNodeTest, NodeList)
   }
 }
 
+/** ----------------------------------------------------------------------- **/
+
+TEST(TreeNodeTest, SubnodeSimpleAccess)
+{
+  cc::TreeNode root_node;
+
+  root_node.Create("level1", cc::NodeKind::Integer);
+  cc::TreeNode& level1_node = root_node.GetNode("level1");
+
+  EXPECT_EQ(cc::NodeKind::Integer, level1_node.Type());
+  level1_node.Create("level2", cc::NodeKind::String);
+
+  cc::TreeNode& level2_node = level1_node.GetNode("level2");
+  EXPECT_EQ(cc::NodeKind::String, level2_node.Type());
+}
+
+TEST(TreeNodeTest, NonexistentSubnodeSimpleAccess)
+{
+  cc::TreeNode root_node;
+
+  root_node.Create("level1", cc::NodeKind::Integer);
+  ASSERT_THROW(root_node.GetNode("level2"), cc::TreeNode::DoesntExistsException);
+}
+
+TEST(TreeNodeTest, SubnodePathAccess)
+{
+  cc::TreeNode root_node;
+
+  root_node.Create("level1", cc::NodeKind::Integer);
+  root_node.GetNode("level1").Create("level2", cc::NodeKind::String);
+
+  cc::TreeNode& level2_node = root_node.GetNode("level1.level2");
+  EXPECT_EQ(cc::NodeKind::String, level2_node.Type());
+}
+
+TEST(TreeNodeTest, PathWithWhitespaces)
+{
+  cc::TreeNode root_node;
+
+  root_node.Create("level1", cc::NodeKind::Integer);
+  root_node.GetNode("level1").Create("level2", cc::NodeKind::String);
+
+  cc::TreeNode& level2_node = root_node.GetNode("level1.level2");
+  EXPECT_EQ(cc::NodeKind::String, level2_node.Type());
+
+  cc::TreeNode& level2_node_a = root_node.GetNode("level1 . level2");
+  EXPECT_TRUE(level2_node_a == level2_node);
+
+  cc::TreeNode& level2_node_b = root_node.GetNode(" level1.level2  ");
+  EXPECT_TRUE(level2_node_b == level2_node);
+
+  ASSERT_THROW(root_node.GetNode("level 1.level 2"), cc::TreeNode::DoesntExistsException);
+}
+
+TEST(TreeNodeTest, InvalidPath)
+{
+  cc::TreeNode root_node;
+
+  root_node.Create("level1", cc::NodeKind::Integer);
+  root_node.GetNode("level1").Create("level2", cc::NodeKind::String);
+
+  ASSERT_THROW(root_node.GetNode("level1..level2"), cc::TreeNode::InvalidPathException);
+}
+
+TEST(TreeNodeTest, NonexistentSubnodePathAccess)
+{
+  cc::TreeNode root_node;
+
+  root_node.Create("level1", cc::NodeKind::Integer);
+
+  ASSERT_THROW(root_node.GetNode("level1.level2"), cc::TreeNode::DoesntExistsException);
+}
 

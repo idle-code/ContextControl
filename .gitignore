@@ -1,4 +1,6 @@
 *~
+*.a
+*.o
 Makefile
 CMakeFiles
 CMakeCache.txt

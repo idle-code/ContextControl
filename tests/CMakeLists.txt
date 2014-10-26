@@ -8,7 +8,7 @@ include_directories(${GTEST_INCLUDE_DIR})
 
 file(GLOB TestSources *.cpp)
 
-set(TestLibs gtest_main)
+set(TestLibs ContextControlTree gtest_main)
 
 add_executable(Tests ${TestSources})
 target_link_libraries(Tests ${TestLibs})

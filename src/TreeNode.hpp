@@ -23,18 +23,29 @@ public:
       : std::logic_error{"Node named '" + node_name + "' doesn't exists"} { }
   };
 
+  class InvalidPathException : std::logic_error { //CHECK: rename to InvalidNodeNameException?
+  public:
+    InvalidPathException(String path)
+      : std::logic_error{"Invalid path: '" + path + "'"} { }
+  };
+
   typedef std::list<String> NameList;
+  static const Char PathDelimiter = '.';
+
+  friend bool operator==(const TreeNode &left, const TreeNode &right);
+  friend bool operator!=(const TreeNode &left, const TreeNode &right);
+
 public:
   TreeNode(NodeKind node_type = NodeKind::Void)
     : _Value{node_type}
   { }
 
-  std::size_t Size(void)
+  std::size_t Size(void) const
   {
     return _Subnodes.size();
   }
 
-  NodeKind Type(void) { return _Value.Type(); }
+  NodeKind Type(void) const { return _Value.Type(); }
 
   template<typename TargetType>
   TargetType GetValueAs(void)
@@ -85,11 +96,42 @@ public:
     return names;
   }
 
+  TreeNode& GetNode(const String path)
+  {
+    std::list<String> path_components = Split(path, PathDelimiter);
+    return GetNode(path_components);
+  }
+
+private:
+  TreeNode& GetNode(std::list<String> &path_components)
+  {
+    if (path_components.empty())
+      throw InvalidPathException{""};
+
+    const String name = Trim(path_components.front());
+    path_components.pop_front();
+
+    if (name.empty())
+      throw InvalidPathException{name};
+
+    for(SubnodeMapPair &key_value : _Subnodes) {
+      if (name == std::get<0>(key_value)) {
+        if (path_components.empty())
+          return *std::get<1>(key_value);
+        else
+          return std::get<1>(key_value)->GetNode(path_components);
+      }
+    }
+
+    throw DoesntExistsException{name};
+  }
+
 private:
   TreeValue _Value;
   typedef std::pair<String, std::unique_ptr<TreeNode>> SubnodeMapPair;
   typedef std::list<SubnodeMapPair> SubnodeMap;
   SubnodeMap _Subnodes;
+
 };
 
 } /* ContextControl namespace */

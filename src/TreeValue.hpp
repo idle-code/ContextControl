@@ -31,6 +31,9 @@ public:
     InvalidTypeException(void) : std::logic_error("Invalid type") { }
   };
 
+  friend bool operator==(const TreeValue &left, const TreeValue &right);
+  friend bool operator!=(const TreeValue &left, const TreeValue &right);
+
 public:
   typedef int IntegerValueType;
   typedef bool BooleanValueType;
@@ -254,6 +257,36 @@ TreeValue::GetValueAs<TreeValue::StringValueType>(void)
     default:
       throw InvalidCastException();
   }
+}
+
+/** ----------------------------------------------------------------------- **/
+
+inline bool
+operator==(const TreeValue &left, const TreeValue &right)
+{
+  if (left.Type() != right.Type())
+    return false;
+
+  switch (left.Type()) {
+    case NodeKind::Void:
+      return true;
+    case NodeKind::Integer:
+      return left._Data.IntegerValue == right._Data.IntegerValue;
+    case NodeKind::Boolean:
+      return left._Data.BooleanValue == right._Data.BooleanValue;
+    case NodeKind::Fractional:
+      return left._Data.FractionalValue == right._Data.FractionalValue;
+    case NodeKind::String:
+      return left._Data.StringValue == right._Data.StringValue;
+    default:
+      throw TreeValue::InvalidTypeException();
+  }
+}
+
+inline bool
+operator!=(const TreeValue &left, const TreeValue &right)
+{
+  return !(left == right);
 }
 
 } /* namespace ContextControl */
