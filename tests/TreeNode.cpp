@@ -182,7 +182,7 @@ TEST(TreeNodeTest, SubnodeSimpleAccess)
   EXPECT_EQ(cc::NodeKind::String, level2_node.Type());
 }
 
-TEST(TreeNodeTest, NonexistentSubnodeSimpleAccess)
+TEST(TreeNodeTest, NonexistentSimpleAccess)
 {
   cc::TreeNode root_node;
 
@@ -190,7 +190,7 @@ TEST(TreeNodeTest, NonexistentSubnodeSimpleAccess)
   ASSERT_THROW(root_node.GetNode("level2"), cc::TreeNode::DoesntExistsException);
 }
 
-TEST(TreeNodeTest, SubnodePathAccess)
+TEST(TreeNodeTest, PathAccess)
 {
   cc::TreeNode root_node;
 
@@ -198,6 +198,17 @@ TEST(TreeNodeTest, SubnodePathAccess)
   root_node.GetNode("level1").Create("level2", cc::NodeKind::String);
 
   cc::TreeNode& level2_node = root_node.GetNode("level1.level2");
+  EXPECT_EQ(cc::NodeKind::String, level2_node.Type());
+}
+
+TEST(TreeNodeTest, OperatorPathAccess)
+{
+  cc::TreeNode root_node;
+
+  root_node.Create("level1", cc::NodeKind::Integer);
+  root_node.GetNode("level1").Create("level2", cc::NodeKind::String);
+
+  cc::TreeNode& level2_node = root_node["level1.level2"];
   EXPECT_EQ(cc::NodeKind::String, level2_node.Type());
 }
 

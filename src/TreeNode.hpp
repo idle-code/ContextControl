@@ -48,7 +48,7 @@ public:
   NodeKind Type(void) const { return _Value.Type(); }
 
   template<typename TargetType>
-  TargetType GetValueAs(void)
+  TargetType GetValueAs(void) const
   {
     return _Value.GetValueAs<TargetType>();
   }
@@ -78,16 +78,16 @@ public:
     _Subnodes.remove_if([&sub_name] (SubnodeMapPair &key_value) { return sub_name == key_value.first; });
   }
 
-  bool Exists(const String sub_name)
+  bool Exists(const String sub_name) const
   {
-    for(SubnodeMapPair &key_value : _Subnodes) {
+    for(const SubnodeMapPair &key_value : _Subnodes) {
       if (sub_name == std::get<0>(key_value))
         return true;
     }
     return false;
   }
 
-  NameList List(void)
+  NameList List(void) const
   {
     NameList names;
     for(auto &key_value : _Subnodes) {
@@ -102,8 +102,24 @@ public:
     return GetNode(path_components);
   }
 
+  const TreeNode& GetNode(const String path) const
+  {
+    return const_cast<TreeNode*>(this)->GetNode(path);
+  }
+
+  TreeNode& operator[](const String path)
+  {
+    return GetNode(path);
+  }
+
+  const TreeNode& operator[](const String path) const
+  {
+    return const_cast<TreeNode*>(this)->GetNode(path);
+  }
+
+
 private:
-  TreeNode& GetNode(std::list<String> &path_components)
+  TreeNode& GetNode(std::list<String> &path_components) const
   {
     if (path_components.empty())
       throw InvalidPathException{""};
@@ -114,7 +130,7 @@ private:
     if (name.empty())
       throw InvalidPathException{name};
 
-    for(SubnodeMapPair &key_value : _Subnodes) {
+    for(const SubnodeMapPair &key_value : _Subnodes) {
       if (name == std::get<0>(key_value)) {
         if (path_components.empty())
           return *std::get<1>(key_value);

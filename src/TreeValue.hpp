@@ -72,7 +72,7 @@ public:
   }
 
   template<typename ValueType>
-  ValueType GetValueAs(void)
+  ValueType GetValueAs(void) const
   {
     throw UnknownCastException();
   }
@@ -150,7 +150,7 @@ private:
 
 template<> inline
 TreeValue::IntegerValueType
-TreeValue::GetValueAs<TreeValue::IntegerValueType>(void)
+TreeValue::GetValueAs<TreeValue::IntegerValueType>(void) const
 {
   switch (_Type) {
     case NodeKind::Integer:
@@ -178,7 +178,7 @@ TreeValue::GetValueAs<TreeValue::IntegerValueType>(void)
 
 template<> inline
 TreeValue::BooleanValueType
-TreeValue::GetValueAs<TreeValue::BooleanValueType>(void)
+TreeValue::GetValueAs<TreeValue::BooleanValueType>(void) const
 {
   switch (_Type) {
     case NodeKind::Integer:
@@ -205,7 +205,7 @@ TreeValue::GetValueAs<TreeValue::BooleanValueType>(void)
 
 template<> inline
 TreeValue::FractionalValueType
-TreeValue::GetValueAs<TreeValue::FractionalValueType>(void)
+TreeValue::GetValueAs<TreeValue::FractionalValueType>(void) const
 {
   switch (_Type) {
     case NodeKind::Integer:
@@ -233,7 +233,7 @@ TreeValue::GetValueAs<TreeValue::FractionalValueType>(void)
 
 template<> inline
 TreeValue::StringValueType
-TreeValue::GetValueAs<TreeValue::StringValueType>(void)
+TreeValue::GetValueAs<TreeValue::StringValueType>(void) const
 {
   switch (_Type) {
     case NodeKind::Integer: {
