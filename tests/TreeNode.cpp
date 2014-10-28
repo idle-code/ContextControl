@@ -166,6 +166,21 @@ TEST(TreeNodeTest, NodeList)
   }
 }
 
+TEST(TreeNodeTest, ClearAllNodes)
+{
+  cc::TreeNode root_node;
+
+  root_node.Create("B", cc::NodeKind::Integer);
+  root_node.Create("A", cc::NodeKind::String);
+  root_node.Create("C");
+
+  EXPECT_EQ(3, root_node.Size());
+
+  root_node.Clear();
+
+  ASSERT_EQ(0, root_node.Size());
+}
+
 /** ----------------------------------------------------------------------- **/
 
 TEST(TreeNodeTest, SubnodeSimpleAccess)

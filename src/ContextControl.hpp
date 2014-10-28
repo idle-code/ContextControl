@@ -1,12 +1,8 @@
 #pragma once
 
+#include "TreeNode.hpp"
+
 namespace ContextControl {
-
-class CCTree {
-public:
-
-protected:
-};
 
 } // namespace ContextControl
 

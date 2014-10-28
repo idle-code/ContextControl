@@ -98,7 +98,7 @@
       "text": "Add Boost dependency to project (to use String.Trim/Split functions)",
       "priority": "medium",
       "creation": 1414353079,
-      "completion": 0,
+      "completion": 1414530550,
       "tasks": []
     }
   ]

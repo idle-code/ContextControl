@@ -10,3 +10,6 @@ file(GLOB ContextControlTreeSources Tree*.cpp)
 add_library(ContextControlTree ${ContextControlTreeSources})
 target_link_libraries(ContextControlTree ${Libs})
 
+add_executable(ccsh "repl.cpp")
+target_link_libraries(ccsh ${Libs})
+

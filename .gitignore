@@ -9,5 +9,6 @@ Session.vim
 CTestTestfile.cmake
 Testing
 
+src/ccsh
 tests/Tests
 

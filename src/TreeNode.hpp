@@ -75,7 +75,14 @@ public:
     if (!Exists(sub_name))
       throw DoesntExistsException{sub_name};
 
-    _Subnodes.remove_if([&sub_name] (SubnodeMapPair &key_value) { return sub_name == key_value.first; });
+    _Subnodes.remove_if([&sub_name](SubnodeMapPair &key_value) { return sub_name == key_value.first; });
+  }
+
+  void Clear(void)
+  {
+    for(String subnode_name : List()) {
+      Delete(subnode_name);
+    }
   }
 
   bool Exists(const String sub_name) const
