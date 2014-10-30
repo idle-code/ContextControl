@@ -5,10 +5,12 @@ set(${Libs} "${Libs} ${Boost_LIBRARIES}")
 
 include_directories(./)
 
-file(GLOB ContextControlTreeSources Tree*.cpp)
+#file(GLOB ContextControlTreeSources Tree*.cpp)
+file(GLOB Sources *.cpp)
 
-add_library(ContextControlTree ${ContextControlTreeSources})
-target_link_libraries(ContextControlTree ${Libs})
+#add_library(ContextControlTree ${ContextControlTreeSources})
+add_library(ContextControl ${Sources})
+target_link_libraries(ContextControl ${Libs})
 
 add_executable(ccsh "repl.cpp")
 target_link_libraries(ccsh ${Libs})

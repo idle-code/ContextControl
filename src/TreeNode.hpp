@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TreeValue.hpp"
+#include "ContextControlException.hpp"
 
 #include <cstdlib>
 #include <list>
@@ -11,22 +12,22 @@ namespace ContextControl {
 
 class TreeNode {
 public:
-  class ExistsException : std::logic_error {
+  class ExistsException : public ContextControlException {
   public:
     ExistsException(String node_name)
-      : std::logic_error{"Node named '" + node_name + "' exists"} { }
+      : ContextControlException{"Node named '" + node_name + "' exists"} { }
   };
 
-  class DoesntExistsException : std::logic_error {
+  class DoesntExistsException : public ContextControlException {
   public:
     DoesntExistsException(String node_name)
-      : std::logic_error{"Node named '" + node_name + "' doesn't exists"} { }
+      : ContextControlException{"Node named '" + node_name + "' doesn't exists"} { }
   };
 
-  class InvalidPathException : std::logic_error { //CHECK: rename to InvalidNodeNameException?
+  class InvalidPathException : public ContextControlException { //CHECK: rename to InvalidNodeNameException?
   public:
     InvalidPathException(String path)
-      : std::logic_error{"Invalid path: '" + path + "'"} { }
+      : ContextControlException{"Invalid path: '" + path + "'"} { }
   };
 
   typedef std::list<String> NameList;
