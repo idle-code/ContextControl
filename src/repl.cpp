@@ -1,10 +1,13 @@
 #include "ContextControl.hpp"
+#include <iostream>
 
+using namespace std;
 using namespace ContextControl;
 
 int
 main(int argc, char *argv[])
 {
+  cout << "Context Control REPL" << endl;
   TreeNode root_node;
 
   //while(true) {
