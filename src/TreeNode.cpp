@@ -15,12 +15,16 @@ operator==(const TreeNode &left, const TreeNode &right)
     return false;
 
   TreeNode::SubnodeMap::const_iterator li = left._Subnodes.begin();
-  TreeNode::SubnodeMap::const_iterator li_end = left._Subnodes.end();
+  const TreeNode::SubnodeMap::const_iterator li_end = left._Subnodes.end();
   TreeNode::SubnodeMap::const_iterator ri = right._Subnodes.begin();
-  TreeNode::SubnodeMap::const_iterator ri_end = right._Subnodes.end();
+  const TreeNode::SubnodeMap::const_iterator ri_end = right._Subnodes.end();
   while (li != li_end && ri != ri_end) {
-    if (*li != *ri)
+    if (li->first != ri->first) // there is difference in naming
       return false;
+    if (*li->second != *ri->second) // there is difference in sub itself
+      return false;
+
+    ++li; ++ri;
   }
 
   if (li != li_end)

@@ -126,6 +126,7 @@ public:
   }
 
   friend bool operator==(const TreeNode &left, const TreeNode &right);
+  friend bool operator!=(const TreeNode &left, const TreeNode &right);
 
 private:
   TreeNode& GetNode(std::list<String> &path_components) const
@@ -159,19 +160,19 @@ private:
 
 };
 
-inline bool
-operator==(const TreeNode &left, const TreeNode &right)
-{
-  if (left._Value != right._Value)
-    return false;
-
-  TreeNode::SubnodeMap::const_iterator left_iterator = left._Subnodes.begin();
-  TreeNode::SubnodeMap::const_iterator right_iterator = right._Subnodes.begin();
-
-  //TODO: Implement tests for this operator first (2014.10.31)
-
-  return false;
-}
+//inline bool
+//operator==(const TreeNode &left, const TreeNode &right)
+//{
+//  if (left._Value != right._Value)
+//    return false;
+//
+//  TreeNode::SubnodeMap::const_iterator left_iterator = left._Subnodes.begin();
+//  TreeNode::SubnodeMap::const_iterator right_iterator = right._Subnodes.begin();
+//
+//  //TODO: Implement tests for this operator first (2014.10.31)
+//
+//  return false;
+//}
 
 } /* ContextControl namespace */
 
