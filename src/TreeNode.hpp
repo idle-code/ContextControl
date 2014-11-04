@@ -31,10 +31,16 @@ public:
   };
 
   typedef std::list<String> NameList;
+  typedef std::shared_ptr<TreeNode> Pointer;
   static const Char PathDelimiter = '.';
 
   friend bool operator==(const TreeNode &left, const TreeNode &right);
   friend bool operator!=(const TreeNode &left, const TreeNode &right);
+
+  static Pointer Create(NodeKind node_type = NodeKind::Void)
+  {
+    return std::make_shared<TreeNode>(node_type);
+  }
 
 public:
   TreeNode(NodeKind node_type = NodeKind::Void)

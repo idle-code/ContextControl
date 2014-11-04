@@ -13,7 +13,9 @@ protected:
     ASSERT_EQ(0, root_node.Size());
 
     root_node.Create("int_node", NodeKind::Integer);
+    root_node["int_node"].SetValueTo(3);
     root_node.Create("string_node", NodeKind::String);
+    root_node["string_node"].SetValueTo("Test");
     root_node.Create("branch");
     root_node["branch"].Create("seven", NodeKind::Integer);
     root_node["branch.seven"].SetValueTo(7);
@@ -49,4 +51,11 @@ TEST_F(ExpressionTest, ExpressionCommand)
   EXPECT_EQ(NodeKind::String, command.Type());
   EXPECT_EQ("get", command.GetValueAs<String>());
 }
+
+/*
+ * {int_node: get} -> 3
+ * {[int_node, string_node]: get} -> [3, "Test"]
+ * {~/home/projects: list}: size
+ * ~/home/projects: list | size 
+ */
 
