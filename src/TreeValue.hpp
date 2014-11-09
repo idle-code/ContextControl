@@ -1,6 +1,8 @@
 #pragma once
 
 #include "String.hpp"
+#include "ContextControlException.hpp"
+
 #include <stdexcept>
 #include <sstream>
 
@@ -16,19 +18,19 @@ enum struct NodeKind {
 
 class TreeValue {
 public:
-  class UnknownCastException : std::logic_error {
+  class UnknownCastException : public ContextControlException {
   public:
-    UnknownCastException(void) : std::logic_error("Unknown cast") { }
+    UnknownCastException(void) : ContextControlException{"Unknown cast"} { }
   };
 
-  class InvalidCastException : std::logic_error {
+  class InvalidCastException : public ContextControlException {
   public:
-    InvalidCastException(void) : std::logic_error("Cast to unsupported type") { }
+    InvalidCastException(void) : ContextControlException{"Cast to unsupported type"} { }
   };
 
-  class InvalidTypeException : std::logic_error {
+  class InvalidTypeException : public ContextControlException {
   public:
-    InvalidTypeException(void) : std::logic_error("Invalid type") { }
+    InvalidTypeException(void) : ContextControlException{"Invalid type"} { }
   };
 
   friend bool operator==(const TreeValue &left, const TreeValue &right);

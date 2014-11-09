@@ -65,7 +65,7 @@ TEST(NodeListTest, Iterators)
   node->SetValueTo(2);
   list.Add(node);
 
-  node = TreeNode::Create(NodeKind::Integer);
+  node = TreeNode::Create(NodeKind::Fractional);
   node->SetValueTo(3.14);
   list.Add(node);
 
@@ -73,6 +73,45 @@ TEST(NodeListTest, Iterators)
 
   NodeList::iterator i = list.begin();
   const NodeList::iterator end = list.end();
+
+  EXPECT_NE(end, i);
+  EXPECT_EQ(1, (*i)->GetValueAs<int>());
+  ++i;
+  EXPECT_NE(end, i);
+  EXPECT_EQ(2, (*i)->GetValueAs<int>());
+  ++i;
+  EXPECT_NE(end, i);
+  EXPECT_DOUBLE_EQ(3.14, (*i)->GetValueAs<double>());
+
+  double sum = 0.0;
+  for (TreeNode::Pointer n : list) {
+    sum += n->GetValueAs<double>();
+  }
+  EXPECT_DOUBLE_EQ(6.14, sum);
+}
+
+TEST(NodeListTest, ConstIterators)
+{
+  NodeList list;
+
+  TreeNode::Pointer node = TreeNode::Create(NodeKind::Integer);
+  node->SetValueTo(1);
+  list.Add(node);
+
+  node = TreeNode::Create(NodeKind::Integer);
+  node->SetValueTo(2);
+  list.Add(node);
+
+  node = TreeNode::Create(NodeKind::Fractional);
+  node->SetValueTo(3.14);
+  list.Add(node);
+
+  EXPECT_EQ(3, list.Size());
+
+  const NodeList &const_list = list;
+
+  NodeList::const_iterator i = const_list.begin();
+  const NodeList::const_iterator end = const_list.end();
 
   EXPECT_NE(end, i);
   EXPECT_EQ(1, (*i)->GetValueAs<int>());

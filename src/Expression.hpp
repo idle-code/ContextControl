@@ -14,9 +14,15 @@ public:
 
 class Expression {
 public:
-  static Expression Parse(const TreeNode &context, const String expression_text)
+  static Expression Parse(TreeNode &context, const String expression_text)
   {
     Expression expression;
+
+    std::list<String> expression_parts = Split(expression_text, ':');
+    //if (expression_parts.size() > 2)
+    //  throw ExpressionException{"Too many expression components delimited by colon :"};
+    expression._ContextNode = &context.GetNode(expression_parts.front());
+    expression._CommandNode = &GetCommand;
 
     return expression;
   }
@@ -26,20 +32,26 @@ public:
 
   TreeNode& Context(void)
   {
-    return GetCommand;
+    return *_ContextNode;
   }
 
   TreeNode& Command(void)
   {
-    return GetCommand;
+    return *_CommandNode;
   }
 
-  //virtual TreeNode Evaluate(void);
+  TreeNode EvaluateScalar(void)
+  {
+    return TreeNode{};
+  }
 
 protected:
   Expression(void)
+    : _ContextNode{nullptr},
+      _CommandNode{nullptr}
   { }
 
+  //CHECK: make following references const? (2014.11.08)
   static TreeNode& CreateCommand;
   static TreeNode& GetCommand;
   static TreeNode& SetCommand;
@@ -47,7 +59,8 @@ protected:
   static TreeNode& DeleteCommand;
 
 private:
-
+  TreeNode *_ContextNode;
+  TreeNode *_CommandNode;
 };
 
 } /* namespace ContextControl */

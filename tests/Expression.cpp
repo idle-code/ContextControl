@@ -52,10 +52,23 @@ TEST_F(ExpressionTest, ExpressionCommand)
   EXPECT_EQ("get", command.GetValueAs<String>());
 }
 
+TEST_F(ExpressionTest, EvaluateScalar)
+{
+  String commant_text = "int_node: get"; // "int_node" alone should also parse
+  Expression parsed_expression = Expression::Parse(root_node, commant_text);
+
+  TreeNode result = parsed_expression.EvaluateScalar();
+  EXPECT_EQ(NodeKind::Integer, result.Type());
+  EXPECT_EQ(3, result.GetValueAs<int>());
+}
+
 /*
- * {int_node: get} -> 3
- * {[int_node, string_node]: get} -> [3, "Test"]
- * {~/home/projects: list}: size
- * ~/home/projects: list | size 
+ * .: {int_node: get} -> 3
+ * .int_node: {get} -> 3
+ * .: {int_node} -> 3
+ * {int_node get} -> error: No "int_node" command in context .
+ * .network.eth0.ip get
+ * .network.eth0.ip: get
+ *
  */
 

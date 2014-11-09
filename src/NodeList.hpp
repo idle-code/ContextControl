@@ -18,6 +18,7 @@ private:
   typedef std::list<TreeNode::Pointer> ListContainerType;
 public:
   typedef ListContainerType::iterator iterator;
+  typedef ListContainerType::const_iterator const_iterator;
 public:
   size_t Size(void) const
   {
@@ -29,13 +30,25 @@ public:
     return _ListContainer.begin();
   }
 
+  const_iterator begin(void) const
+  {
+    return _ListContainer.begin();
+  }
+
   iterator end(void)
+  {
+    return _ListContainer.end();
+  }
+  
+  const_iterator end(void) const
   {
     return _ListContainer.end();
   }
 
   void Add(TreeNode::Pointer node_to_add)
   {
+    if (node_to_add == nullptr)
+      throw NodeListException{"Cannot add null TreeNode to NodeList"};
     _ListContainer.push_back(node_to_add);
   }
 
