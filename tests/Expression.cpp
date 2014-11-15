@@ -57,7 +57,7 @@ TEST_F(ExpressionTest, EvaluateScalar)
   String commant_text = "int_node: get"; // "int_node" alone should also parse
   Expression parsed_expression = Expression::Parse(root_node, commant_text);
 
-  TreeNode result = parsed_expression.EvaluateScalar();
+  TreeNode result = parsed_expression.Evaluate();
   EXPECT_EQ(NodeKind::Integer, result.Type());
   EXPECT_EQ(3, result.GetValueAs<int>());
 }
@@ -69,6 +69,9 @@ TEST_F(ExpressionTest, EvaluateScalar)
  * {int_node get} -> error: No "int_node" command in context .
  * .network.eth0.ip get
  * .network.eth0.ip: get
- *
+ * {.: list}: sort.descending.by.name | ${{size} - 1}
+ * {int_node: get} + 2 -> 5
+ * {int_node} + 2 -> 5
+ * int_node + 2 -> 5
  */
 

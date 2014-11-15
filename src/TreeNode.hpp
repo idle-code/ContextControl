@@ -4,7 +4,7 @@
 #include "ContextControlException.hpp"
 
 #include <cstdlib>
-#include <list>
+#include <deque>
 #include <utility>
 #include <memory>
 
@@ -82,7 +82,13 @@ public:
     if (!Exists(sub_name))
       throw DoesntExistsException{sub_name};
 
-    _Subnodes.remove_if([&sub_name](SubnodeMapPair &key_value) { return sub_name == key_value.first; });
+    //_Subnodes.remove_if([&sub_name](SubnodeMapPair &key_value) { return sub_name == key_value.first; });
+    std::remove_if(
+        _Subnodes.begin(),
+        _Subnodes.end(),
+        [&sub_name](SubnodeMapPair &key_value) {
+          return sub_name == key_value.first;
+        });
   }
 
   void Clear(void)
@@ -146,12 +152,24 @@ private:
     if (name.empty())
       throw InvalidPathException{name};
 
-    for(const SubnodeMapPair &key_value : _Subnodes) {
-      if (name == std::get<0>(key_value)) {
-        if (path_components.empty())
-          return *std::get<1>(key_value);
-        else
-          return std::get<1>(key_value)->GetNode(path_components);
+    if (name[0] == '$') {
+      long node_index = std::stol(name.substr(1));
+
+      if (node_index < 0)
+        throw InvalidPathException{name};
+      else if (node_index >= _Subnodes.size())
+        throw DoesntExistsException{name};
+      else
+        return *std::get<1>(_Subnodes[node_index]);
+    }
+    else {
+      for(const SubnodeMapPair &key_value : _Subnodes) {
+        if (name == std::get<0>(key_value)) {
+          if (path_components.empty())
+            return *std::get<1>(key_value);
+          else
+            return std::get<1>(key_value)->GetNode(path_components);
+        }
       }
     }
 
@@ -161,7 +179,7 @@ private:
 private:
   TreeValue _Value;
   typedef std::pair<String, std::unique_ptr<TreeNode>> SubnodeMapPair;
-  typedef std::list<SubnodeMapPair> SubnodeMap;
+  typedef std::deque<SubnodeMapPair> SubnodeMap;
   SubnodeMap _Subnodes;
 
 };

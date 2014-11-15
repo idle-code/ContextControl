@@ -265,6 +265,40 @@ TEST(TreeNodeTest, NonexistentSubnodePathAccess)
   ASSERT_THROW(root_node.GetNode("level1.level2"), cc::TreeNode::DoesntExistsException);
 }
 
+TEST(TreeNodeTest, SequentialPathAccess)
+{
+  cc::TreeNode root_node;
+
+  root_node.Create("foo", cc::NodeKind::Integer);
+  root_node["foo"].SetValueTo(111);
+  root_node.Create("bar", cc::NodeKind::Integer);
+  root_node["bar"].SetValueTo(222);
+  root_node.Create("spam", cc::NodeKind::Integer);
+  root_node["spam"].SetValueTo(333);
+
+  ASSERT_EQ(3, root_node.Size());
+
+  EXPECT_EQ(111, root_node.GetNode("$0").GetValueAs<int>());
+  EXPECT_EQ(222, root_node.GetNode("$1").GetValueAs<int>());
+  EXPECT_EQ(333, root_node.GetNode("$2").GetValueAs<int>());
+
+  ASSERT_THROW(root_node.GetNode("$5"), cc::TreeNode::DoesntExistsException);
+}
+
+TEST(TreeNodeTest, CreateAnonymousNode)
+{
+  cc::TreeNode root_node;
+
+  root_node.Create(cc::NodeKind::Integer);
+  root_node["$0"].SetValueTo(1234);
+  root_node.Create(cc::NodeKind::Integer);
+  root_node["$1"].SetValueTo(5678);
+
+  ASSERT_EQ(2, root_node.Size());
+  ASSERT_EQ(1234, root_node["$0"].GetValueAs<int>());
+  ASSERT_EQ(5678, root_node["$1"].GetValueAs<int>());
+}
+
 /** ----------------------------------------------------------------------- **/
 
 TEST(TreeNodeTest, SelfComparison)

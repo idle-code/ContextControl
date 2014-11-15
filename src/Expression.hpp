@@ -40,7 +40,7 @@ public:
     return *_CommandNode;
   }
 
-  TreeNode EvaluateScalar(void)
+  TreeNode Evaluate(void)
   {
     return TreeNode{};
   }
