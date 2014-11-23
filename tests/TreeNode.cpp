@@ -91,7 +91,7 @@ TEST(TreeNodeTest, NodeCreate)
 {
   cc::TreeNode root_node;
 
-  root_node.Create("child", cc::NodeKind::Integer);
+  root_node.Create(cc::NodeKind::Integer, "child");
 
   EXPECT_EQ(1, root_node.Size());
   EXPECT_TRUE(root_node.Exists("child"));
@@ -106,7 +106,7 @@ TEST(TreeNodeTest, NodeCreateAlreadyExisting)
 {
   cc::TreeNode root_node;
 
-  root_node.Create("child", cc::NodeKind::Integer);
+  root_node.Create(cc::NodeKind::Integer, "child");
 
   EXPECT_EQ(1, root_node.Size());
   ASSERT_TRUE(root_node.Exists("child"));
@@ -118,7 +118,7 @@ TEST(TreeNodeTest, NodeDelete)
 {
   cc::TreeNode root_node;
 
-  root_node.Create("child", cc::NodeKind::Integer);
+  root_node.Create(cc::NodeKind::Integer, "child");
 
   EXPECT_EQ(1, root_node.Size());
   ASSERT_TRUE(root_node.Exists("child"));
@@ -142,8 +142,8 @@ TEST(TreeNodeTest, NodeList)
 {
   cc::TreeNode root_node;
 
-  root_node.Create("B", cc::NodeKind::Integer);
-  root_node.Create("A", cc::NodeKind::String);
+  root_node.Create(cc::NodeKind::Integer, "B");
+  root_node.Create(cc::NodeKind::String, "A");
   root_node.Create("C");
 
   EXPECT_EQ(3, root_node.Size());
@@ -170,8 +170,8 @@ TEST(TreeNodeTest, ClearAllNodes)
 {
   cc::TreeNode root_node;
 
-  root_node.Create("B", cc::NodeKind::Integer);
-  root_node.Create("A", cc::NodeKind::String);
+  root_node.Create(cc::NodeKind::Integer, "B");
+  root_node.Create(cc::NodeKind::String, "A");
   root_node.Create("C");
 
   EXPECT_EQ(3, root_node.Size());
@@ -187,11 +187,11 @@ TEST(TreeNodeTest, SubnodeSimpleAccess)
 {
   cc::TreeNode root_node;
 
-  root_node.Create("level1", cc::NodeKind::Integer);
+  root_node.Create(cc::NodeKind::Integer, "level1");
   cc::TreeNode& level1_node = root_node.GetNode("level1");
 
   EXPECT_EQ(cc::NodeKind::Integer, level1_node.Type());
-  level1_node.Create("level2", cc::NodeKind::String);
+  level1_node.Create(cc::NodeKind::String, "level2");
 
   cc::TreeNode& level2_node = level1_node.GetNode("level2");
   EXPECT_EQ(cc::NodeKind::String, level2_node.Type());
@@ -201,7 +201,7 @@ TEST(TreeNodeTest, NonexistentSimpleAccess)
 {
   cc::TreeNode root_node;
 
-  root_node.Create("level1", cc::NodeKind::Integer);
+  root_node.Create(cc::NodeKind::Integer, "level1");
   ASSERT_THROW(root_node.GetNode("level2"), cc::TreeNode::DoesntExistsException);
 }
 
@@ -209,8 +209,8 @@ TEST(TreeNodeTest, PathAccess)
 {
   cc::TreeNode root_node;
 
-  root_node.Create("level1", cc::NodeKind::Integer);
-  root_node.GetNode("level1").Create("level2", cc::NodeKind::String);
+  root_node.Create(cc::NodeKind::Integer, "level1");
+  root_node.GetNode("level1").Create(cc::NodeKind::String, "level2");
 
   cc::TreeNode& level2_node = root_node.GetNode("level1.level2");
   EXPECT_EQ(cc::NodeKind::String, level2_node.Type());
@@ -220,8 +220,8 @@ TEST(TreeNodeTest, OperatorPathAccess)
 {
   cc::TreeNode root_node;
 
-  root_node.Create("level1", cc::NodeKind::Integer);
-  root_node.GetNode("level1").Create("level2", cc::NodeKind::String);
+  root_node.Create(cc::NodeKind::Integer, "level1");
+  root_node.GetNode("level1").Create(cc::NodeKind::String, "level2");
 
   cc::TreeNode& level2_node = root_node["level1.level2"];
   EXPECT_EQ(cc::NodeKind::String, level2_node.Type());
@@ -231,8 +231,8 @@ TEST(TreeNodeTest, PathWithWhitespaces)
 {
   cc::TreeNode root_node;
 
-  root_node.Create("level1", cc::NodeKind::Integer);
-  root_node.GetNode("level1").Create("level2", cc::NodeKind::String);
+  root_node.Create(cc::NodeKind::Integer, "level1");
+  root_node.GetNode("level1").Create(cc::NodeKind::String, "level2");
 
   cc::TreeNode& level2_node = root_node.GetNode("level1.level2");
   EXPECT_EQ(cc::NodeKind::String, level2_node.Type());
@@ -250,8 +250,8 @@ TEST(TreeNodeTest, InvalidPath)
 {
   cc::TreeNode root_node;
 
-  root_node.Create("level1", cc::NodeKind::Integer);
-  root_node.GetNode("level1").Create("level2", cc::NodeKind::String);
+  root_node.Create(cc::NodeKind::Integer, "level1");
+  root_node.GetNode("level1").Create(cc::NodeKind::String, "level2");
 
   ASSERT_THROW(root_node.GetNode("level1..level2"), cc::TreeNode::InvalidPathException);
 }
@@ -260,7 +260,7 @@ TEST(TreeNodeTest, NonexistentSubnodePathAccess)
 {
   cc::TreeNode root_node;
 
-  root_node.Create("level1", cc::NodeKind::Integer);
+  root_node.Create(cc::NodeKind::Integer, "level1");
 
   ASSERT_THROW(root_node.GetNode("level1.level2"), cc::TreeNode::DoesntExistsException);
 }
@@ -269,11 +269,11 @@ TEST(TreeNodeTest, SequentialPathAccess)
 {
   cc::TreeNode root_node;
 
-  root_node.Create("foo", cc::NodeKind::Integer);
+  root_node.Create(cc::NodeKind::Integer, "foo");
   root_node["foo"].SetValueTo(111);
-  root_node.Create("bar", cc::NodeKind::Integer);
+  root_node.Create(cc::NodeKind::Integer, "bar");
   root_node["bar"].SetValueTo(222);
-  root_node.Create("spam", cc::NodeKind::Integer);
+  root_node.Create(cc::NodeKind::Integer, "spam");
   root_node["spam"].SetValueTo(333);
 
   ASSERT_EQ(3, root_node.Size());
@@ -341,10 +341,10 @@ TEST(TreeNodeTest, SameValueComparison)
 TEST(TreeNodeTest, SubnodesComparison)
 {
   cc::TreeNode a_node;
-  a_node.Create("sub", cc::NodeKind::Fractional);
+  a_node.Create(cc::NodeKind::Fractional, "sub");
 
   cc::TreeNode b_node;
-  b_node.Create("sub", cc::NodeKind::Fractional);
+  b_node.Create(cc::NodeKind::Fractional, "sub");
 
   ASSERT_EQ(a_node, b_node);
 }
@@ -352,11 +352,11 @@ TEST(TreeNodeTest, SubnodesComparison)
 TEST(TreeNodeTest, DifferentSubnodeCountComparison)
 {
   cc::TreeNode a_node;
-  a_node.Create("sub", cc::NodeKind::Fractional);
-  a_node.Create("sub2", cc::NodeKind::Integer);
+  a_node.Create(cc::NodeKind::Fractional, "sub");
+  a_node.Create(cc::NodeKind::Integer, "sub2");
 
   cc::TreeNode b_node;
-  b_node.Create("sub", cc::NodeKind::Fractional);
+  b_node.Create(cc::NodeKind::Fractional, "sub");
 
   ASSERT_NE(a_node, b_node);
 }
@@ -364,11 +364,11 @@ TEST(TreeNodeTest, DifferentSubnodeCountComparison)
 TEST(TreeNodeTest, DifferentSubValueComparison)
 {
   cc::TreeNode a_node;
-  a_node.Create("sub", cc::NodeKind::Fractional);
+  a_node.Create(cc::NodeKind::Fractional, "sub");
   a_node["sub"].SetValueTo(3.1415);
 
   cc::TreeNode b_node;
-  b_node.Create("sub", cc::NodeKind::Fractional);
+  b_node.Create(cc::NodeKind::Fractional, "sub");
   b_node["sub"].SetValueTo(2.7182);
 
   ASSERT_NE(a_node, b_node);
@@ -377,14 +377,14 @@ TEST(TreeNodeTest, DifferentSubValueComparison)
 TEST(TreeNodeTest, DifferentSecondSubValueComparison)
 {
   cc::TreeNode a_node;
-  a_node.Create("foo", cc::NodeKind::Integer);
-  a_node.Create("bar", cc::NodeKind::Integer);
+  a_node.Create(cc::NodeKind::Integer, "foo");
+  a_node.Create(cc::NodeKind::Integer, "bar");
   a_node["foo"].SetValueTo(3);
   a_node["bar"].SetValueTo(4);
 
   cc::TreeNode b_node;
-  b_node.Create("foo", cc::NodeKind::Integer);
-  b_node.Create("bar", cc::NodeKind::Integer);
+  b_node.Create(cc::NodeKind::Integer, "foo");
+  b_node.Create(cc::NodeKind::Integer, "bar");
   b_node["foo"].SetValueTo(3);
   b_node["bar"].SetValueTo(5);
 
@@ -394,12 +394,12 @@ TEST(TreeNodeTest, DifferentSecondSubValueComparison)
 TEST(TreeNodeTest, SubOrderComparison)
 {
   cc::TreeNode a_node;
-  a_node.Create("foo", cc::NodeKind::Integer);
-  a_node.Create("bar", cc::NodeKind::Integer);
+  a_node.Create(cc::NodeKind::Integer, "foo");
+  a_node.Create(cc::NodeKind::Integer, "bar");
 
   cc::TreeNode b_node;
-  b_node.Create("foo", cc::NodeKind::Integer);
-  b_node.Create("bar", cc::NodeKind::Integer);
+  b_node.Create(cc::NodeKind::Integer, "foo");
+  b_node.Create(cc::NodeKind::Integer, "bar");
 
   ASSERT_EQ(a_node, b_node);
 }
@@ -407,12 +407,12 @@ TEST(TreeNodeTest, SubOrderComparison)
 TEST(TreeNodeTest, DifferentSubOrderComparison)
 {
   cc::TreeNode a_node;
-  a_node.Create("foo", cc::NodeKind::Integer);
-  a_node.Create("bar", cc::NodeKind::Integer);
+  a_node.Create(cc::NodeKind::Integer, "foo");
+  a_node.Create(cc::NodeKind::Integer, "bar");
 
   cc::TreeNode b_node;
-  b_node.Create("bar", cc::NodeKind::Integer);
-  b_node.Create("foo", cc::NodeKind::Integer);
+  b_node.Create(cc::NodeKind::Integer, "bar");
+  b_node.Create(cc::NodeKind::Integer, "foo");
 
   ASSERT_NE(a_node, b_node);
 }

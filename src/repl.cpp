@@ -12,7 +12,7 @@ main(int argc, char *argv[])
 
   //while(true) {
   //  String line;
-  //  std::getline(cin, line);
+  //  std::getline(cin, line);;qa
   //  try {
   //    parser.Parse(line);
   //  } catch (const CommandParser::Exception &) {

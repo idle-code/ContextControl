@@ -37,11 +37,6 @@ public:
   friend bool operator==(const TreeNode &left, const TreeNode &right);
   friend bool operator!=(const TreeNode &left, const TreeNode &right);
 
-  static Pointer Create(NodeKind node_type = NodeKind::Void)
-  {
-    return std::make_shared<TreeNode>(node_type);
-  }
-
 public:
   TreeNode(NodeKind node_type = NodeKind::Void)
     : _Value{node_type}
@@ -66,9 +61,19 @@ public:
     _Value.SetValueTo(value);
   }
 
-  void Create(const String new_sub_name, NodeKind new_sub_type = NodeKind::Void)
+  void Create(const String new_sub_name)
   {
-    if (Exists(new_sub_name))
+    Create(NodeKind::Void, new_sub_name);
+  }
+
+  void Create(NodeKind new_sub_type)
+  {
+    Create(new_sub_type, "");
+  }
+
+  void Create(NodeKind new_sub_type, const String new_sub_name)
+  {
+    if (new_sub_name.length() > 0 && Exists(new_sub_name))
       throw ExistsException{new_sub_name};
 
     _Subnodes.push_back(std::make_pair(
@@ -83,17 +88,20 @@ public:
       throw DoesntExistsException{sub_name};
 
     //_Subnodes.remove_if([&sub_name](SubnodeMapPair &key_value) { return sub_name == key_value.first; });
-    std::remove_if(
-        _Subnodes.begin(),
-        _Subnodes.end(),
-        [&sub_name](SubnodeMapPair &key_value) {
-          return sub_name == key_value.first;
-        });
+    _Subnodes.erase(
+      std::remove_if(
+          _Subnodes.begin(),
+          _Subnodes.end(),
+          [&sub_name](SubnodeMapPair &key_value) {
+            return sub_name == key_value.first;
+          }),
+      _Subnodes.end()
+      );
   }
 
   void Clear(void)
   {
-    for(String subnode_name : List()) {
+    for(const String &subnode_name : List()) {
       Delete(subnode_name);
     }
   }

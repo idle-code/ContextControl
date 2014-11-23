@@ -12,14 +12,14 @@ protected:
   {
     ASSERT_EQ(0, root_node.Size());
 
-    root_node.Create("int_node", NodeKind::Integer);
+    root_node.Create(NodeKind::Integer, "int_node");
     root_node["int_node"].SetValueTo(3);
-    root_node.Create("string_node", NodeKind::String);
+    root_node.Create(NodeKind::String, "string_node");
     root_node["string_node"].SetValueTo("Test");
     root_node.Create("branch");
-    root_node["branch"].Create("seven", NodeKind::Integer);
+    root_node["branch"].Create(NodeKind::Integer, "seven");
     root_node["branch.seven"].SetValueTo(7);
-    root_node["branch"].Create("true", NodeKind::Boolean);
+    root_node["branch"].Create(NodeKind::Boolean, "true");
     root_node["branch.true"].SetValueTo(true);
 
     ASSERT_EQ(3, root_node.Size());

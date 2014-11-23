@@ -1,0 +1,5 @@
+#!/usr/bin/zsh
+
+./build && cd tests/ && lldb ./Tests
+
+
