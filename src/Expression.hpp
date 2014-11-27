@@ -18,7 +18,7 @@ public:
   {
     Expression expression;
 
-    std::list<String> expression_parts = Split(expression_text, ':');
+    std::list<String> expression_parts = expression_text.Split(':');
     //if (expression_parts.size() > 2)
     //  throw ExpressionException{"Too many expression components delimited by colon :"};
     expression._ContextNode = &context.GetNode(expression_parts.front());

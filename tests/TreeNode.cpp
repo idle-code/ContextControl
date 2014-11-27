@@ -35,7 +35,7 @@ TEST(TreeNodeTest, IntegerNode)
   ASSERT_EQ(cc::NodeKind::Integer, tree_node.Type());
 
   EXPECT_EQ(1337, tree_node.GetValueAs<int>());
-  EXPECT_EQ(std::string("1337"), tree_node.GetValueAs<std::string>());
+  EXPECT_EQ(cc::String("1337"), tree_node.GetValueAs<cc::String>());
   EXPECT_EQ(0, tree_node.Size());
 }
 
@@ -46,7 +46,7 @@ TEST(TreeNodeTest, DefaultFractionalNode)
   ASSERT_EQ(cc::NodeKind::Fractional, tree_node.Type());
 
   EXPECT_DOUBLE_EQ(0.0, tree_node.GetValueAs<double>());
-  EXPECT_EQ("0", tree_node.GetValueAs<std::string>());
+  EXPECT_EQ("0", tree_node.GetValueAs<cc::String>());
   EXPECT_EQ(0, tree_node.Size());
 }
 
@@ -59,7 +59,7 @@ TEST(TreeNodeTest, FractionalNode)
   ASSERT_EQ(cc::NodeKind::Fractional, tree_node.Type());
 
   EXPECT_DOUBLE_EQ(3.1415, tree_node.GetValueAs<double>());
-  EXPECT_EQ("3.1415", tree_node.GetValueAs<std::string>());
+  EXPECT_EQ("3.1415", tree_node.GetValueAs<cc::String>());
   EXPECT_EQ(0, tree_node.Size());
 }
 
@@ -69,7 +69,7 @@ TEST(TreeNodeTest, DefaultStringNode)
 
   ASSERT_EQ(cc::NodeKind::String, tree_node.Type());
 
-  EXPECT_EQ("", tree_node.GetValueAs<std::string>());
+  EXPECT_EQ("", tree_node.GetValueAs<cc::String>());
   EXPECT_EQ(0, tree_node.Size());
 }
 
@@ -81,7 +81,7 @@ TEST(TreeNodeTest, StringNode)
 
   ASSERT_EQ(cc::NodeKind::String, tree_node.Type());
 
-  EXPECT_EQ("TEST", tree_node.GetValueAs<std::string>());
+  EXPECT_EQ("TEST", tree_node.GetValueAs<cc::String>());
   EXPECT_EQ(0, tree_node.Size());
 }
 

@@ -73,7 +73,7 @@ public:
 
   void Create(NodeKind new_sub_type, const String new_sub_name)
   {
-    if (new_sub_name.length() > 0 && Exists(new_sub_name))
+    if (new_sub_name.Length() > 0 && Exists(new_sub_name))
       throw ExistsException{new_sub_name};
 
     _Subnodes.push_back(std::make_pair(
@@ -126,7 +126,7 @@ public:
 
   TreeNode& GetNode(const String path)
   {
-    std::list<String> path_components = Split(path, PathDelimiter);
+    std::list<String> path_components = path.Split(PathDelimiter);
     return GetNode(path_components);
   }
 
@@ -154,14 +154,14 @@ private:
     if (path_components.empty())
       throw InvalidPathException{""};
 
-    const String name = Trim(path_components.front());
+    const String name = path_components.front().Trim();
     path_components.pop_front();
 
-    if (name.empty())
+    if (name.IsEmpty())
       throw InvalidPathException{name};
 
     if (name[0] == '$') {
-      long node_index = std::stol(name.substr(1));
+      long node_index = std::stol(name.Substring(1));
 
       if (node_index < 0)
         throw InvalidPathException{name};
